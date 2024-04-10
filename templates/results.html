@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+</head>
+<body>
+    <h1>Analysis Results</h1>
+
+    <h2>Subdomains:</h2>
+    {% for subdomain in subdomains %}
+    <p>{{ subdomain.Domain }} - {{ subdomain.IP }}</p>
+    {% endfor %}
+
+    <h2>Assets:</h2>
+    <h3>Images:</h3>
+    {% for image in assets.Images %}
+    <p>{{ image }}</p>
+    {% endfor %}
+    <h3>CSS:</h3>
+    {% for css in assets.CSS %}
+    <p>{{ css }}</p>
+    {% endfor %}
+    <h3>JavaScript:</h3>
+    {% for js in assets.JavaScript %}
+    <p>{{ js }}</p>
+    {% endfor %}
+
+    <h2>SSL Certificate:</h2>
+    {% if certificate %}
+    <p>Issuer: {{ certificate.Issuer }}</p>
+    <p>Subject: {{ certificate.Subject }}</p>
+    <p>Expiration Date: {{ certificate["Expiration Date"] }}</p>
+    {% else %}
+    <p>No certificate found.</p>
+    {% endif %}
+
+    <!-- Add more sections for other analysis results -->
+
+</body>
+</html>
