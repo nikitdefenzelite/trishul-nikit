@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+import streamlit as st
 import tldextract
 import socket
 import whois
@@ -9,8 +9,6 @@ import OpenSSL.crypto
 import datetime
 import re
 import dns.resolver
-
-app = Flask(__name__)
 
 def get_subdomains(domain):
     subdomains = []
@@ -262,51 +260,81 @@ def get_mobile_apps(url):
         pass
     return mobile_apps
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+def main():
+    st.title("Website Analysis Tool")
 
-@app.route("/analyze", methods=["POST"])
-def analyze():
-    url = request.form["url"]
-    domain = tldextract.extract(url).registered_domain
+    url = st.text_input("Enter the URL of the website to analyze:")
+    if st.button("Analyze"):
+        if url:
+            domain = tldextract.extract(url).registered_domain
+            subdomains = get_subdomains(domain)
+            assets = get_assets(url)
+            certificate = get_certificate(domain)
+            emails = get_emails(url)
+            logo_url = get_logo(url)
+            social_profiles = get_social_profiles(url)
+            keywords = get_keywords(url)
+            third_party_services = get_third_party_services(url)
+            vendor_info = get_vendor_info(url)
+            sister_companies = get_sister_companies(url)
+            api_details = get_api_details(url)
+            object_storage = get_object_storage(url)
+            cdn = get_cdn(url)
+            data_storage = get_data_storage(url)
+            contact_details = get_contact_details(url)
+            login_urls = get_login_url(url)
+            mobile_apps = get_mobile_apps(url)
 
-    subdomains = get_subdomains(domain)
-    assets = get_assets(url)
-    certificate = get_certificate(domain)
-    emails = get_emails(url)
-    logo_url = get_logo(url)
-    social_profiles = get_social_profiles(url)
-    keywords = get_keywords(url)
-    third_party_services = get_third_party_services(url)
-    vendor_info = get_vendor_info(url)
-    sister_companies = get_sister_companies(url)
-    api_details = get_api_details(url)
-    object_storage = get_object_storage(url)
-    cdn = get_cdn(url)
-    data_storage = get_data_storage(url)
-    contact_details = get_contact_details(url)
-    login_urls = get_login_url(url)
-    mobile_apps = get_mobile_apps(url)
+            st.write("**Subdomains:**")
+            st.write(subdomains)
 
-    return render_template("results.html",
-                           subdomains=subdomains,
-                           assets=assets,
-                           certificate=certificate,
-                           emails=emails,
-                           logo_url=logo_url,
-                           social_profiles=social_profiles,
-                           keywords=keywords,
-                           third_party_services=third_party_services,
-                           vendor_info=vendor_info,
-                           sister_companies=sister_companies, 
-                           api_details=api_details, 
-                           object_storage=object_storage, 
-                           cdn=cdn, 
-                           data_storage=data_storage, 
-                           contact_details=contact_details, 
-                           login_urls=login_urls, 
-                           mobile_apps=mobile_apps)
+            st.write("**Assets:**")
+            st.write(assets)
+
+            st.write("**Certificate:**")
+            st.write(certificate)
+
+            st.write("**Emails:**")
+            st.write(emails)
+
+            st.write("**Logo URL:**")
+            st.write(logo_url)
+
+            st.write("**Social Profiles:**")
+            st.write(social_profiles)
+
+            st.write("**Keywords:**")
+            st.write(keywords)
+
+            st.write("**Third Party Services:**")
+            st.write(third_party_services)
+
+            st.write("**Vendor Information:**")
+            st.write(vendor_info)
+
+            st.write("**Sister Companies:**")
+            st.write(sister_companies)
+
+            st.write("**API Details:**")
+            st.write(api_details)
+
+            st.write("**Object Storage:**")
+            st.write(object_storage)
+
+            st.write("**CDN:**")
+            st.write(cdn)
+
+            st.write("**Data Storage:**")
+            st.write(data_storage)
+
+            st.write("**Contact Details:**")
+            st.write(contact_details)
+
+            st.write("**Login URLs:**")
+            st.write(login_urls)
+
+            st.write("**Mobile Apps:**")
+            st.write(mobile_apps)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    main()
